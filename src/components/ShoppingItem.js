@@ -10,11 +10,7 @@ export default function ShoppingItem({ article }) {
       try {
         const response = await fetch(furtherInfo);
         const data = await response.json();
-        setArticleDetails({
-          image: data.sprites.default,
-          cost: data.cost,
-          name: data.name,
-        });
+        setArticleDetails(data);
       } catch (error) {
         console.error(error);
       }
@@ -22,12 +18,5 @@ export default function ShoppingItem({ article }) {
     fetchData();
   }, [furtherInfo]);
   console.log(articleDetails);
-  return (
-    <li>
-      <img alt="" src={articleDetails.image} />
-      <p>{articleDetails.cost} $</p>
-
-      {article.name}
-    </li>
-  );
+  return <li>{article.name}</li>;
 }
