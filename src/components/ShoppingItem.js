@@ -1,6 +1,7 @@
+import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 
-export default function ShoppingItem({ article }) {
+export default function ShoppingItem({ article, onAddItem }) {
   const [articleDetails, setArticleDetails] = useState("");
 
   const furtherInfo = article.url;
@@ -11,6 +12,7 @@ export default function ShoppingItem({ article }) {
         const response = await fetch(furtherInfo);
         const data = await response.json();
         setArticleDetails({
+          id: nanoid(),
           image: data.sprites.default,
           cost: data.cost,
           name: data.name,
@@ -21,13 +23,23 @@ export default function ShoppingItem({ article }) {
     }
     fetchData();
   }, [furtherInfo]);
-  console.log(articleDetails);
+
+  function handleClick(id) {
+    const newItem = {
+      id: nanoid(),
+      image: articleDetails.image,
+      cost: articleDetails.cost,
+      name: article.name,
+    };
+    onAddItem(newItem);
+  }
+
   return (
     <li>
       <img alt="" src={articleDetails.image} />
       <p>{articleDetails.cost} $</p>
-
       {article.name}
+      <button onClick={handleClick}>add item</button>
     </li>
   );
 }
