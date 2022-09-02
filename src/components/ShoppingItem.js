@@ -1,5 +1,12 @@
-export default function ShoppingItem() {
+export default function ShoppingItem({ shopItems }) {
     return (
-        <li>Text</li>
+        <ul>
+            {shopItems.map((item) => {
+                return (
+                    <li key={item.name}>{item.name}</li>
+                )
+            })}
+        </ul>
+
     )
 }

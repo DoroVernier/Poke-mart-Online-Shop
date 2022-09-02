@@ -28,8 +28,10 @@ function App() {
   console.log(shopItems);
 
   return <div className="App">
+
     <Header />
-    <ShoppingItem />
+    <ShoppingItem key={shopItems.name} shopItems={shopItems} />
+
   </div>;
 }
 
