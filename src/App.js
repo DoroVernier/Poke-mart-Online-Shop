@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       <Header />
 
-      <ul>
+      <Menu>
         {shopItems.map((item) => {
           return (
             <ShoppingItem
@@ -42,13 +42,19 @@ function App() {
             />
           );
         })}
-      </ul>
+      </Menu>
     </div>
   );
 }
 
-// const Ul = styled.ul`
-//   background-color: red;
-// `;
+const Menu = styled.ul`
+  background-color: red;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 15px;
+`;
 
 export default App; //
