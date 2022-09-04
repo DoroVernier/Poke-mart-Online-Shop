@@ -4,9 +4,9 @@ import Header from "./components/Header";
 import ShoppingItem from "./components/ShoppingItem";
 import ShoppingCart from "./components/ShoppingCart";
 import styled from "styled-components";
-import { isContentEditable } from "@testing-library/user-event/dist/utils";
+import { Routes, Route, Link } from "react-router-dom";
 
-function App() {
+export default function App() {
   const [shopItems, setShopItems] = useState([]);
   const [boughtItems, setBoughtItems] = useState([]);
   const shopApiUrl = "https://pokeapi.co/api/v2/item/";
@@ -28,46 +28,103 @@ function App() {
     setBoughtItems([item, ...boughtItems]);
   }
 
-  // function removeItem(item) {
-  //   setBoughtItems(newList);
-  // }
+  function Home() {
+    return (
+      <>
+        <Header />
+        <nav>
+          <Link to="/Cart">
+            <Nav>Cart</Nav>
+            <Counter>{boughtItems.length}</Counter>
+          </Link>
+        </nav>
+        <Menu>
+          {shopItems.map((item) => {
+            return (
+              <ShoppingItem
+                key={item.name}
+                article={item}
+                onAddItem={addItem}
+              />
+            );
+          })}
+        </Menu>
+      </>
+    );
+  }
 
-  // console.log(newList);
-
-  return (
-    <div className="App">
-      <Header />
-      <Menu>
-        {shopItems.map((item) => {
+  function Cart() {
+    return (
+      <>
+        <h2>Shopping Cart</h2>
+        <nav>
+          <Link to="/">
+            <Nav>Home</Nav>
+            <Counter>{boughtItems.length}</Counter>
+          </Link>
+        </nav>
+        <CartUl>
+        {boughtItems.map((item) => {
           return (
-            <ShoppingItem key={item.name} article={item} onAddItem={addItem} />
+            <ShoppingCart
+              key={item.id}
+              id={item.id}
+              cartItem={item}
+              onSetBoughtItems={setBoughtItems}
+              boughtItems={boughtItems}
+            />
           );
         })}
-      </Menu>
-      <h2>Shopping Cart</h2>
-      {boughtItems.map((item) => {
-        return (
-          <ShoppingCart
-            key={item.id}
-            id={item.id}
-            cartItem={item}
-            setBoughtItems={setBoughtItems}
-            boughtItems={boughtItems}
-          />
-        );
-      })}
+        </CartUl>
+      </>
+    );
+  }
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="Cart" element={<Cart />} />
+      </Routes>
     </div>
   );
 }
 
 const Menu = styled.ul`
-  background-color: red;
+  background-color: rgb(255, 203, 5);
+  min-width: 200px; 
   list-style: none;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-column: 50% 50%;
   justify-content: center;
-  gap: 5px;
+  gap: 15px;
   padding: 15px;
+  
+`;
+const CartUl = styled.ul`
+background-color: rgb(255, 203, 5);
+min-width: 200px; 
+display: grid;
+  grid-template-column: 50% 50%;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px; 
 `;
 
-export default App; //
+const Counter = styled.output`
+color: white; 
+background-color: rgb(10 40 95); 
+border: 2px solid black; 
+border-radius: 50%; 
+padding: 15px; 
+margin: 10px; 
+`;
+
+const Nav = styled.button`
+font-style: bold; 
+border: 2px solid black; 
+border-radius: 15px; 
+padding: 10px; 
+background-color: rgb(255, 203, 5); 
+color: rgb(0 117 190)
+`;
+
