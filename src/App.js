@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import ShoppingItem from "./components/ShoppingItem";
 import ShoppingCart from "./components/ShoppingCart";
 import styled from "styled-components";
-
+import { isContentEditable } from "@testing-library/user-event/dist/utils";
 
 function App() {
   const [shopItems, setShopItems] = useState([]);
@@ -29,10 +29,10 @@ function App() {
   }
 
   // function removeItem(item) {
-  //   setBoughtItems{[]}
+  //   setBoughtItems(newList);
   // }
 
-  console.log(boughtItems);
+  // console.log(newList);
 
   return (
     <div className="App">
@@ -40,11 +40,7 @@ function App() {
       <Menu>
         {shopItems.map((item) => {
           return (
-            <ShoppingItem
-              key={item.name}
-              article={item}
-              onAddItem={addItem}
-            />
+            <ShoppingItem key={item.name} article={item} onAddItem={addItem} />
           );
         })}
       </Menu>
@@ -53,12 +49,13 @@ function App() {
         return (
           <ShoppingCart
             key={item.id}
+            id={item.id}
             cartItem={item}
-          // onAddItem={addItem}
+            setBoughtItems={setBoughtItems}
+            boughtItems={boughtItems}
           />
-        )
+        );
       })}
-
     </div>
   );
 }
