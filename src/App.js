@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import ShoppingItem from "./components/ShoppingItem";
+import ShoppingCart from "./components/ShoppingCart";
 import styled from "styled-components";
+
+
 function App() {
   const [shopItems, setShopItems] = useState([]);
   const [boughtItems, setBoughtItems] = useState([]);
@@ -25,24 +28,37 @@ function App() {
     setBoughtItems([item, ...boughtItems]);
   }
 
+  // function removeItem(item) {
+  //   setBoughtItems{[]}
+  // }
+
   console.log(boughtItems);
 
   return (
     <div className="App">
       <Header />
-
       <Menu>
         {shopItems.map((item) => {
           return (
             <ShoppingItem
               key={item.name}
               article={item}
-              onSetBougthItems={setBoughtItems}
               onAddItem={addItem}
             />
           );
         })}
       </Menu>
+      <h2>Shopping Cart</h2>
+      {boughtItems.map((item) => {
+        return (
+          <ShoppingCart
+            key={item.id}
+            cartItem={item}
+          // onAddItem={addItem}
+          />
+        )
+      })}
+
     </div>
   );
 }
