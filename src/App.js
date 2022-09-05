@@ -12,15 +12,13 @@ export default function App() {
   const [boughtItems, setBoughtItems] = useState([]);
   const shopApiUrl = "https://pokeapi.co/api/v2/item/";
 
-
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(shopApiUrl);
         const data = await response.json();
-        console.log('first fetch', data.results);
+        console.log("first fetch", data.results);
         setShopItems(data.results);
-
       } catch (error) {
         console.error(error);
       }
@@ -29,15 +27,20 @@ export default function App() {
   }, []);
 
   function addItem(item) {
-    const existingCartItem = boughtItems.find(boughtItem => boughtItem.id === item.id)
+    const existingCartItem = boughtItems.find(
+      (boughtItem) => boughtItem.id === item.id
+    );
+    console.log(item);
     if (existingCartItem) {
-      //count+1
-
+      existingCartItem.count = existingCartItem.count + 1;
+      const updatedCartItems = boughtItems.map((boughtItem) =>
+        boughtItem.id === item.id ? existingCartItem : boughtItem
+      );
+      setBoughtItems(updatedCartItems);
     } else {
       setBoughtItems([{ ...item, count: 1 }, ...boughtItems]);
     }
   }
-
 
   // function typeCounter(boughtItems) {
   //     const countedTypeItems = boughtItems.filter((item) => boughtItems.name === item.name);
@@ -98,7 +101,6 @@ export default function App() {
             );
           })}
         </CartUl>
-
       </>
     );
   }
@@ -110,10 +112,17 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="cart-checkout" element={<CartItem key={boughtItems.id}
-          id={boughtItems.id}
-          onSetBoughtItems={setBoughtItems}
-          boughtItems={boughtItems} />} />
+        <Route
+          path="cart-checkout"
+          element={
+            <CartItem
+              key={boughtItems.id}
+              id={boughtItems.id}
+              onSetBoughtItems={setBoughtItems}
+              boughtItems={boughtItems}
+            />
+          }
+        />
       </Routes>
     </div>
   );
@@ -138,8 +147,6 @@ const CartUl = styled.ul`
   gap: 15px;
   padding: 15px;
 `;
-
-
 
 const NavButton = styled.button`
   font-style: bold;
