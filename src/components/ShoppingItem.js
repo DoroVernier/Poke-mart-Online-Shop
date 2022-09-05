@@ -25,7 +25,7 @@ export default function ShoppingItem({ article, onAddItem }) {
     fetchData();
   }, [furtherInfo]);
 
-  function handleClick(id) {
+  function handleClick() {
     const newItem = {
       id: nanoid(),
       image: articleDetails.image,
@@ -52,11 +52,10 @@ const Cards = styled.li`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `;
 const AddButton = styled.button`
-padding: 5px; 
-background-color: rgb(0 117 190)  ; 
-border-radius: 50%; 
-margin: 10px; 
-border: 2px solid black; 
-color: white; 
-`
-
+  padding: 5px;
+  background-color: rgb(0 117 190);
+  border-radius: 50%;
+  margin: 10px;
+  border: 2px solid black;
+  color: white;
+`;

@@ -64,17 +64,17 @@ export default function App() {
           </Link>
         </nav>
         <CartUl>
-        {boughtItems.map((item) => {
-          return (
-            <ShoppingCart
-              key={item.id}
-              id={item.id}
-              cartItem={item}
-              onSetBoughtItems={setBoughtItems}
-              boughtItems={boughtItems}
-            />
-          );
-        })}
+          {boughtItems.map((item) => {
+            return (
+              <ShoppingCart
+                key={item.id}
+                id={item.id}
+                cartItem={item}
+                onSetBoughtItems={setBoughtItems}
+                boughtItems={boughtItems}
+              />
+            );
+          })}
         </CartUl>
       </>
     );
@@ -91,40 +91,38 @@ export default function App() {
 
 const Menu = styled.ul`
   background-color: rgb(255, 203, 5);
-  min-width: 200px; 
+  min-width: 200px;
   list-style: none;
   display: grid;
   grid-template-column: 50% 50%;
   justify-content: center;
   gap: 15px;
   padding: 15px;
-  
 `;
 const CartUl = styled.ul`
-background-color: rgb(255, 203, 5);
-min-width: 200px; 
-display: grid;
+  background-color: rgb(255, 203, 5);
+  min-width: 200px;
+  display: grid;
   grid-template-column: 50% 50%;
   justify-content: center;
   gap: 15px;
-  padding: 15px; 
+  padding: 15px;
 `;
 
 const Counter = styled.output`
-color: white; 
-background-color: rgb(10 40 95); 
-border: 2px solid black; 
-border-radius: 50%; 
-padding: 15px; 
-margin: 10px; 
+  color: white;
+  background-color: rgb(10 40 95);
+  border: 2px solid black;
+  border-radius: 50%;
+  padding: 15px;
+  margin: 10px;
 `;
 
 const Nav = styled.button`
-font-style: bold; 
-border: 2px solid black; 
-border-radius: 15px; 
-padding: 10px; 
-background-color: rgb(255, 203, 5); 
-color: rgb(0 117 190)
+  font-style: bold;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: rgb(255, 203, 5);
+  color: rgb(0 117 190);
 `;
-
