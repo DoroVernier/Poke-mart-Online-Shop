@@ -12,8 +12,9 @@ export default function ShoppingItem({ article, onAddItem }) {
       try {
         const response = await fetch(furtherInfo);
         const data = await response.json();
+        console.log('2nd fetch', data);
         setArticleDetails({
-          id: nanoid(),
+          id: data.id,
           image: data.sprites.default,
           cost: data.cost,
           name: data.name,

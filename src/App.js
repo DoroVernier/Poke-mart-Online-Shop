@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/Header";
 import ShoppingItem from "./components/ShoppingItem";
 import ShoppingCart from "./components/ShoppingCart";
+import CartItem from "./components/CartItem";
 import styled from "styled-components";
 import { Routes, Route, Link } from "react-router-dom";
 
@@ -11,12 +12,15 @@ export default function App() {
   const [boughtItems, setBoughtItems] = useState([]);
   const shopApiUrl = "https://pokeapi.co/api/v2/item/";
 
+
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(shopApiUrl);
         const data = await response.json();
+        console.log('first fetch', data.results);
         setShopItems(data.results);
+
       } catch (error) {
         console.error(error);
       }
@@ -25,17 +29,32 @@ export default function App() {
   }, []);
 
   function addItem(item) {
-    setBoughtItems([item, ...boughtItems]);
+    const existingCartItem = boughtItems.find(boughtItem => boughtItem.id === item.id)
+    if (existingCartItem) {
+      //count+1
+
+    } else {
+      setBoughtItems([{ ...item, count: 1 }, ...boughtItems]);
+    }
   }
+
+
+  // function typeCounter(boughtItems) {
+  //     const countedTypeItems = boughtItems.filter((item) => boughtItems.name === item.name);
+  //     return countedTypeItems.length;
+  // }
 
   function Home() {
     return (
       <>
         <Header />
         <nav>
-          <Link to="/Cart">
-            <Nav>Cart</Nav>
+          <Link to="/cart">
+            <NavButton>Cart</NavButton>
             <Counter>{boughtItems.length}</Counter>
+          </Link>
+          <Link to="/cart-checkout">
+            <NavButton>Checkout</NavButton>
           </Link>
         </nav>
         <Menu>
@@ -59,8 +78,11 @@ export default function App() {
         <h2>Shopping Cart</h2>
         <nav>
           <Link to="/">
-            <Nav>Home</Nav>
+            <NavButton>Home</NavButton>
             <Counter>{boughtItems.length}</Counter>
+          </Link>
+          <Link to="/cart-checkout">
+            <NavButton>Checkout</NavButton>
           </Link>
         </nav>
         <CartUl>
@@ -76,14 +98,22 @@ export default function App() {
             );
           })}
         </CartUl>
+
       </>
     );
   }
+
+  console.log(boughtItems);
+
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="Cart" element={<Cart />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="cart-checkout" element={<CartItem key={boughtItems.id}
+          id={boughtItems.id}
+          onSetBoughtItems={setBoughtItems}
+          boughtItems={boughtItems} />} />
       </Routes>
     </div>
   );
@@ -109,6 +139,17 @@ const CartUl = styled.ul`
   padding: 15px;
 `;
 
+
+
+const NavButton = styled.button`
+  font-style: bold;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: rgb(255, 203, 5);
+  color: rgb(0 117 190);
+`;
+
 const Counter = styled.output`
   color: white;
   background-color: rgb(10 40 95);
@@ -116,13 +157,4 @@ const Counter = styled.output`
   border-radius: 50%;
   padding: 15px;
   margin: 10px;
-`;
-
-const Nav = styled.button`
-  font-style: bold;
-  border: 2px solid black;
-  border-radius: 15px;
-  padding: 10px;
-  background-color: rgb(255, 203, 5);
-  color: rgb(0 117 190);
 `;
