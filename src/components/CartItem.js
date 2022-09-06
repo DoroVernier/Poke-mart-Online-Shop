@@ -1,36 +1,50 @@
-
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export default function CartItem({ boughtItems, }) {
-
-
-    return (
-        <>
-            <h2>Checkout</h2>
-            <nav>
-                <Link to="/">
-                    <NavButton>Home</NavButton>
-                    <Counter>{boughtItems.length}</Counter>
-                </Link>
-                <Link to="/cart">
-                    <NavButton>Cart</NavButton>
-                </Link>
-            </nav>
-            <CartUl>
-                {boughtItems.map((item) => {
-                    return (
-                        <CheckoutListItem key={item.id}>
-                            <img alt="" src={item.image} />
-                            {item.name}
-                            <span>{item.cost} $</span>
-                            {/* <p>{countedTypeItems.length}</p> */}
-                        </CheckoutListItem>
-                    );
-                })}
-            </CartUl>
-        </>
+export default function CartItem({ boughtItems, onSetBoughtItems }) {
+  function handleRemove(itemId) {
+    const newList = boughtItems.filter(
+      (boughtItem) => boughtItem.id !== itemId
     );
+    onSetBoughtItems(newList);
+    console.log(itemId);
+  }
+
+  let sum = 0;
+
+  boughtItems.forEach((boughtItem) => {
+    sum = sum + boughtItem.cost * boughtItem.count;
+  });
+
+  return (
+    <>
+      <h2>Checkout</h2>
+      <nav>
+        <Link to="/">
+          <NavButton>Home</NavButton>
+          <Counter>{boughtItems.length}</Counter>
+        </Link>
+        <Link to="/cart">
+          <NavButton>Cart</NavButton>
+        </Link>
+      </nav>
+      <CartUl>
+        <h3> sum={sum} $</h3>
+        {boughtItems.map((item) => {
+          return (
+            <CheckoutListItem key={item.id}>
+              <img alt="" src={item.image} />
+              {item.name}
+              <span>{item.cost} $</span>
+              <p>{item.count}</p>
+              <p>Subtotal {item.cost * item.count} $</p>
+              <RemButton onClick={() => handleRemove(item.id)}>X</RemButton>
+            </CheckoutListItem>
+          );
+        })}
+      </CartUl>
+    </>
+  );
 }
 
 const RemButton = styled.button`

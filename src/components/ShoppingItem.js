@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -12,7 +11,7 @@ export default function ShoppingItem({ article, onAddItem }) {
       try {
         const response = await fetch(furtherInfo);
         const data = await response.json();
-        console.log('2nd fetch', data);
+        // console.log('2nd fetch', data);
         setArticleDetails({
           id: data.id,
           image: data.sprites.default,
@@ -27,13 +26,7 @@ export default function ShoppingItem({ article, onAddItem }) {
   }, [furtherInfo]);
 
   function handleClick() {
-    const newItem = {
-      id: nanoid(),
-      image: articleDetails.image,
-      cost: articleDetails.cost,
-      name: article.name,
-    };
-    onAddItem(newItem);
+    onAddItem(articleDetails);
   }
 
   return (
